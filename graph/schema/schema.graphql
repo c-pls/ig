@@ -1,0 +1,65 @@
+# Query type
+type Query {
+    posts(user_id: ID): [Post!]!
+}
+
+type Mutation {
+    createUser(input: NewUser!): String!
+}
+input NewUser {
+    username: String!
+    password: String!
+}
+
+# An object with a Globally Unique ID
+#interface Node {
+#    # The ID of the object.
+#    id: ID!
+#}
+
+"""This is a description, it will be exposed via introspection and maybe added to generated code"""
+type User implements Node{
+    id: ID!
+    # User info
+    username: String!
+    firstName: String!
+    lastName: String!
+    bio: String!
+    avatarUrl: String!
+    createdAt: Time
+    updatedAt: Time
+    # List follower
+    follower: [User]!
+    # List of following
+    following: [User]!
+}
+
+type Post implements Node{
+    id: ID!
+    caption: String!
+    longitude: Float!
+    latitude: Float!
+    user: User!
+#    photo: [Photo!]!
+#    comment: [Comment!]!
+#    like: [Like!]!
+    createdAt: Time
+    updatedAt: Time
+}
+
+#type Photo {
+#    id: ID!
+#    url: String!
+#    createdAt: Time
+#}
+#
+#type Comment  {
+#    id: ID!
+#}
+#
+#type Like  {
+#    id: ID!
+#}
+
+scalar Time
+

@@ -1,0 +1,33 @@
+directive @goModel(
+    model: String
+    models: [String!]
+) on OBJECT | INPUT_OBJECT | SCALAR | ENUM | INTERFACE | UNION
+directive @goField(
+    forceResolver: Boolean
+    name: String
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+
+interface Node @goModel(model: "github.com/c-pls/instagram/backend/graph/model.Node") {
+    id: ID!
+}
+
+interface Edge {
+    cursor: String!
+    node: Node!
+}
+
+type PageInfo {
+    endCursor: String!
+    hasNextPage: String!
+}
+
+interface Connection {
+    pageInfo: PageInfo!
+    edges: [Edge]!
+}
+
+input PaginationInput {
+    first: Int
+    after: String
+}
+
