@@ -1,0 +1,33 @@
+# Comment sort by timestamp (DESC) and number of like
+type Comment implements Node {
+    id: ID!
+    comment_id: ID!
+    #    parent: Parent!
+    user: User!
+    content: String!
+    #    type: Type!
+    like: Like!
+    replies: CommentConnection!
+    createdAt: Time
+    updatedAt: Time
+
+}
+
+type CommentEdge implements Edge{
+    cursor: String!
+    node: Comment!
+}
+
+type CommentConnection implements Connection {
+    edges: [CommentEdge]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+input CommentInput{
+    # Comment on a post or reply a comment
+    parent_id: String!
+    user_id: String!
+    content: String!
+    type: Type!
+}

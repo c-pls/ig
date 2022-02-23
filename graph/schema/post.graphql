@@ -1,0 +1,32 @@
+# Only have the forward paginate
+
+type Post implements Node{
+    id: ID!
+    caption: String!
+    longitude: Float!
+    latitude: Float!
+    user: User!
+    #    photo: [Photo!]!
+    comment(first: Int!, after: String!): CommentConnection!
+    like: Like!
+    createdAt: Time
+    updatedAt: Time
+}
+
+type PostEdge implements Edge{
+    cursor: String!
+    node: Post!
+}
+
+type PostConnection implements Connection {
+    edges: [PostEdge]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+input NewPost{
+    caption: String!
+    longitude: Float!
+    latitude: Float!
+    user_id: String!
+}

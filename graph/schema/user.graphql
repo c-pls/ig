@@ -1,0 +1,37 @@
+"""This is a description, it will be exposed via introspection and maybe added to generated code"""
+type User implements Node{
+    id: ID!
+    # User info
+    username: String!
+    firstName: String!
+    lastName: String!
+    bio: String!
+    avatarUrl: String!
+    createdAt: Time
+    updatedAt: Time
+    posts( first: Int!, after: String!, sortBy: OrderDirection!): PostConnection!
+    # List follower
+    follower(first: Int!, after: String!): UserConnection!
+    # List of following
+    following(first: Int!, after: String!): UserConnection!
+}
+
+type UserEdge implements Edge{
+    cursor: String!
+    node: User!
+}
+
+type UserConnection implements Connection{
+    pageInfo: PageInfo!
+    edges: [UserEdge]!
+    totalCount: Int!
+}
+
+input NewUser{
+    username: String!
+    salted_password: String!
+    first_name: String!
+    last_name: String!
+    bio: String!
+    avatar_url: String!
+}

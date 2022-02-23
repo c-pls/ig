@@ -18,16 +18,23 @@ interface Edge {
 
 type PageInfo {
     endCursor: String!
-    hasNextPage: String!
+    hasNextPage: Boolean!
 }
 
 interface Connection {
-    pageInfo: PageInfo!
     edges: [Edge]!
+    pageInfo: PageInfo!
+    totalCount: Int!
 }
 
-input PaginationInput {
-    first: Int
-    after: String
+interface Order {
+    direction: OrderDirection
+}
+
+enum OrderDirection {
+    """ Specifies an ascending sort order."""
+    ASC
+    """Specifies a descending sort order."""
+    DESC
 }
 

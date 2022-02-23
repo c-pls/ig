@@ -2,6 +2,13 @@
 
 package model
 
+import (
+	"fmt"
+	"io"
+	"strconv"
+	"time"
+)
+
 type Connection interface {
 	IsConnection()
 }
@@ -10,17 +17,180 @@ type Edge interface {
 	IsEdge()
 }
 
+type Order interface {
+	IsOrder()
+}
+
+type CommentConnection struct {
+	Edges      []*CommentEdge `json:"edges"`
+	PageInfo   *PageInfo      `json:"pageInfo"`
+	TotalCount int            `json:"totalCount"`
+}
+
+func (CommentConnection) IsConnection() {}
+
+type CommentEdge struct {
+	Cursor string   `json:"cursor"`
+	Node   *Comment `json:"node"`
+}
+
+func (CommentEdge) IsEdge() {}
+
+type CommentInput struct {
+	ParentID string `json:"parent_id"`
+	UserID   string `json:"user_id"`
+	Content  string `json:"content"`
+	Type     Type   `json:"type"`
+}
+
+type FollowInput struct {
+	FollowingID string `json:"following_id"`
+	FollowedID  string `json:"followed_id"`
+}
+
+type LikeInput struct {
+	ParentID string `json:"parent_id"`
+	UserID   string `json:"user_id"`
+	Type     Type   `json:"type"`
+}
+
+type NewPost struct {
+	Caption   string  `json:"caption"`
+	Longitude float64 `json:"longitude"`
+	Latitude  float64 `json:"latitude"`
+	UserID    string  `json:"user_id"`
+}
+
 type NewUser struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Username       string `json:"username"`
+	SaltedPassword string `json:"salted_password"`
+	FirstName      string `json:"first_name"`
+	LastName       string `json:"last_name"`
+	Bio            string `json:"bio"`
+	AvatarURL      string `json:"avatar_url"`
 }
 
 type PageInfo struct {
 	EndCursor   string `json:"endCursor"`
-	HasNextPage string `json:"hasNextPage"`
+	HasNextPage bool   `json:"hasNextPage"`
 }
 
-type PaginationInput struct {
-	First *int    `json:"first"`
-	After *string `json:"after"`
+type Photo struct {
+	ID        string     `json:"id"`
+	URL       string     `json:"url"`
+	CreatedAt *time.Time `json:"createdAt"`
+}
+
+type PostConnection struct {
+	Edges      []*PostEdge `json:"edges"`
+	PageInfo   *PageInfo   `json:"pageInfo"`
+	TotalCount int         `json:"totalCount"`
+}
+
+func (PostConnection) IsConnection() {}
+
+type PostEdge struct {
+	Cursor string `json:"cursor"`
+	Node   *Post  `json:"node"`
+}
+
+func (PostEdge) IsEdge() {}
+
+type UserConnection struct {
+	PageInfo   *PageInfo   `json:"pageInfo"`
+	Edges      []*UserEdge `json:"edges"`
+	TotalCount int         `json:"totalCount"`
+}
+
+func (UserConnection) IsConnection() {}
+
+type UserEdge struct {
+	Cursor string `json:"cursor"`
+	Node   *User  `json:"node"`
+}
+
+func (UserEdge) IsEdge() {}
+
+type OrderDirection string
+
+const (
+	//  Specifies an ascending sort order.
+	OrderDirectionAsc OrderDirection = "ASC"
+	// Specifies a descending sort order.
+	OrderDirectionDesc OrderDirection = "DESC"
+)
+
+var AllOrderDirection = []OrderDirection{
+	OrderDirectionAsc,
+	OrderDirectionDesc,
+}
+
+func (e OrderDirection) IsValid() bool {
+	switch e {
+	case OrderDirectionAsc, OrderDirectionDesc:
+		return true
+	}
+	return false
+}
+
+func (e OrderDirection) String() string {
+	return string(e)
+}
+
+func (e *OrderDirection) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = OrderDirection(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid OrderDirection", str)
+	}
+	return nil
+}
+
+func (e OrderDirection) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type Type string
+
+const (
+	TypePost    Type = "Post"
+	TypeComment Type = "Comment"
+)
+
+var AllType = []Type{
+	TypePost,
+	TypeComment,
+}
+
+func (e Type) IsValid() bool {
+	switch e {
+	case TypePost, TypeComment:
+		return true
+	}
+	return false
+}
+
+func (e Type) String() string {
+	return string(e)
+}
+
+func (e *Type) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = Type(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid Type", str)
+	}
+	return nil
+}
+
+func (e Type) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
 }

@@ -1,0 +1,14 @@
+input LikeInput {
+    parent_id: String!
+    user_id: String!
+    type: Type!
+}
+
+type Like {
+    id: ID!
+    totalCount: Int!
+    # Who like
+    users: [User!]!
+    createdAt: Time
+    updatedAt: Time
+}

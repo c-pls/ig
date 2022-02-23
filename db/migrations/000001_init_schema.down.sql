@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS comments cascade;
+DROP TABLE IF EXISTS follows cascade;
+DROP TABLE IF EXISTS likes cascade;
+DROP TABLE IF EXISTS posts cascade;
+DROP TABLE IF EXISTS photos cascade;
+DROP TABLE IF EXISTS posts_comments cascade;
+DROP TABLE IF EXISTS posts_hashtags cascade;
+DROP TABLE IF EXISTS posts_photos cascade;
+DROP TABLE IF EXISTS tags cascade;
+DROP TABLE IF EXISTS users cascade;
+DROP TABLE IF EXISTS users_posts cascade;
+DROP TABLE IF EXISTS hash_tags cascade;

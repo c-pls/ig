@@ -1,0 +1,14 @@
+#type Follow {
+#    id: ID!
+#    following_id: String!
+#    followed_id: String!
+#    active: Boolean!
+#    created_at: Time
+#    updated_at: Time
+#}
+
+input FollowInput{
+    following_id: ID!
+    followed_id: ID!
+}
+
