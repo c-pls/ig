@@ -5,11 +5,11 @@ package resolver
 
 import (
 	"context"
-	"github.com/c-pls/instagram/backend/db/utils"
 	"strconv"
 
 	"github.com/c-pls/instagram/backend/api/posts"
 	"github.com/c-pls/instagram/backend/api/users"
+	"github.com/c-pls/instagram/backend/db/utils"
 	"github.com/c-pls/instagram/backend/graph/generated"
 	"github.com/c-pls/instagram/backend/graph/model"
 )
@@ -38,7 +38,6 @@ func (r *userResolver) Posts(ctx context.Context, obj *model.User, first int, af
 		return nil, err
 	}
 	return postConnection, nil
-
 }
 
 func (r *userResolver) Follower(ctx context.Context, obj *model.User, first int, after string) (*model.UserConnection, error) {

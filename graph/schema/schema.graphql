@@ -3,15 +3,19 @@ type Query {
     # Query an user based on user_id
     """Find an user based on their user_id"""
     user(user_id: ID!): User!
+    follower(user_id: ID!): UserConnection!
+    following(user_id: ID!): UserConnection!
+
 
     """Find a post based on its post_id"""
     post(post_id: ID!): Post!
+    posts(post_id: ID!): PostConnection!
     # Find all post of a specific user
     # Infinity scroll so it does not have last and before
     # Since this is list of  specific user posts => only need to paginate with timestamp
     #    user_posts(user_id: ID!, first: Int!, after: String!, sortBy: OrderDirection!): PostConnection!
     # Find a comment based on parentID
-    #    comments(parent_id: ID!): CommentConnection
+    comments(parent_id: ID!): CommentConnection
 
 }
 

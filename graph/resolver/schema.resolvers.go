@@ -5,6 +5,7 @@ package resolver
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 
 	"github.com/c-pls/instagram/backend/api/comments"
@@ -88,6 +89,14 @@ func (r *queryResolver) User(ctx context.Context, userID string) (*model.User, e
 	return resUser, nil
 }
 
+func (r *queryResolver) Follower(ctx context.Context, userID string) (*model.UserConnection, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Following(ctx context.Context, userID string) (*model.UserConnection, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 func (r *queryResolver) Post(ctx context.Context, postID string) (*model.Post, error) {
 	post, err := store.GetPostById(ctx, postID)
 	if err != nil {
@@ -97,6 +106,14 @@ func (r *queryResolver) Post(ctx context.Context, postID string) (*model.Post, e
 	resPost := posts.MapPostDBToPostModel(post)
 
 	return resPost, nil
+}
+
+func (r *queryResolver) Posts(ctx context.Context, postID string) (*model.PostConnection, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) Comments(ctx context.Context, parentID string) (*model.CommentConnection, error) {
+	panic(fmt.Errorf("not implemented"))
 }
 
 // Mutation returns generated.MutationResolver implementation.
